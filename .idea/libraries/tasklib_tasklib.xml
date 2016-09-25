@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="tasklib.tasklib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/tasklib/build/libs/tasklib.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

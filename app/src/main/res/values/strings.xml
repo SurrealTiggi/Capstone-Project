@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">RewardBingo</string>
+    <string name="appTitle">REWARD BINGO</string>
+    <string name="new_chart">New Chart</string>
+    <string name="view_charts">View Charts</string>
+    <string name="network_is_broken">Sorry, no internet found, some functionality will be disabled.</string>
+    <string name="user_to_track">Which user to track?</string>
+    <string-array name="tasks_array">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+    <string name="title_activity_chart_view">ChartViewActivity</string>
+    <string name="title_activity_new_chart">NewChartActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="chart_week_days">M | Tu | W | Th | F | Sa | Su</string>
+    <string name="task_list_numerical">1.\n2.\n3.\n4.\n5.</string>
+</resources>
