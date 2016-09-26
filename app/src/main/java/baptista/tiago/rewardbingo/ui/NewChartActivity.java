@@ -1,5 +1,6 @@
 package baptista.tiago.rewardbingo.ui;
 
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,12 +19,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import baptista.tiago.rewardbingo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import models.Rewards;
 import tasks.FetchTasks;
 import tasks.OnTasksCompleted;
+import utils.CreateModel;
 
 
 /**
@@ -32,17 +39,19 @@ import tasks.OnTasksCompleted;
 public class NewChartActivity extends AppCompatActivity implements OnTasksCompleted {
 
     public static final String TAG = NewChartActivity.class.getSimpleName();
+    public static final String CURRENT_TASKS = "CURRENT_TASKS";
     @Bind(R.id.taskSpinner) Spinner mTaskSpinner;
     @Bind(R.id.userEditText) EditText mUserEditText;
     @Bind(R.id.buttonClear) Button mClearButton;
     @Bind(R.id.buttonRandom) Button mRandomButton;
     @Bind(R.id.buttonSave) Button mSaveButton;
-    @Bind(R.id.taskListView) ListView mTaskListView;
     @Bind(R.id.buttonCreate) Button mCreateButton;
+    @Bind(R.id.taskListView) ListView mListView;
     public String mName;
     public String mTasks;
     private Context mContext;
     private String mRandomTasks;
+    private List<String> mItems = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +60,9 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
         setContentView(R.layout.activity_new_chart);
 
         ButterKnife.bind(this);
-        mContext = this.getBaseContext();
-
-        // Remove views in case user tries to click.
-        //mGridLayout.removeAllViews();
+        mRandomTasks = null;
+        mItems = null;
+        //mContext = this.getBaseContext();
 
         //TODO: Disable back button, put in warning window to return to main screen for confirmation (won't save).
         //TODO: Save bundle when user leaves the app.
@@ -91,16 +99,13 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
             @Override
             public void onClick(View v) {
                 updateTaskAdapter(mTasks, 2);
-                //TODO: Populate fields with values from API call.
             }
         });
 
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Save everything into db
-                //TODO: Load up chart view Activity
-                startChartActivity();
+                updateTaskAdapter(mTasks, 3);
             }
         });
 
@@ -108,16 +113,12 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
             @Override
             public void onClick(View v) {
                 updateTaskAdapter(mTasks, 0);
-                //TODO: Populate fields with values from API call.
             }
         });
-
-        //updateTaskAdapter(mTasks, 0);
-
     }
 
     private void updateTaskAdapter(String tasks, int edgeCase) {
-        Log.d(TAG, "updateTaskAdapter(" + edgeCase + ")");
+        //Log.d(TAG, "updateTaskAdapter(" + edgeCase + ")");
         // Always check what we have before continuing
         mName = mUserEditText.getText().toString();
         int taskTotal = Integer.parseInt(tasks);
@@ -132,64 +133,55 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
                     break;
                 case 1:
                     Log.d(TAG, "Clearing...");
-                    //TODO: Clear List view if exists, clear name, clear tasks
+                    mUserEditText.setText("");
+                    mRandomTasks = null;
+                    mListView.setAdapter(null);
                     break;
                     //mTaskSpinner.requestFocus();
                 case 2:
                     Log.d(TAG, "Fetching external data....");
                     new FetchTasks(this).execute("https://udacity-3-1252.appspot.com/_ah/api", mTasks);
                     break;
+                case 3:
+                    Log.d(TAG, "Saving and moving to view chart activity...");
+                    startChartActivity();
             }
         }
     }
 
     private void populateListView() {
         Log.d(TAG, "populateListView()");
-        if (mRandomTasks == null ) {
-            //Random was not pressed so populating as normal.
+
+        if (mRandomTasks == null) {
+            Log.d(TAG, "NULL");
+            for (int i = 0; i < Integer.valueOf(mTasks); i++) {
+                mItems.add("Enter task description");
+            }
         } else {
-            //Random was pressed, so setting all views with string
+            Log.d(TAG, "NOT NULL");
+            mItems = Arrays.asList(mRandomTasks.split("\\s*: \\s*"));
         }
+        Log.d(TAG, "Items are: " + mItems);
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mItems);
+
+        //ListView listView = (ListView) findViewById(R.id.taskListView);
+        mListView.setAdapter(adapter);
     }
-        //mGridLayout.setColumnCount(taskPerRow);
-        //mGridLayout.setRowCount(rowTotal + 1);
-/*
-        for (int i = 0, c = 0, r = 0; i < rowTotal; i++, c++) {
-            if (c == taskPerRow) {
-                c = 0;
-                r++;
-            }
-            TextView taskNum= new TextView(this);
-            Log.d(TAG, "Doing #" + i);
-            taskNum.setText("#" + (i + 1));
-            //taskNum.setTextSize(R.dimen.button_regular_text_size);
-
-            //oImageView.setLayoutParams(new GridLayout.LayoutParams(100, 100));
-
-            GridLayout.Spec rowSpan = GridLayout.spec(GridLayout.UNDEFINED, 1);
-            GridLayout.Spec colspan = GridLayout.spec(GridLayout.UNDEFINED, 1);
-            if (r == 0 && c == 0) {
-                //Log.e("", "spec");
-                colspan = GridLayout.spec(GridLayout.UNDEFINED, 2);
-                rowSpan = GridLayout.spec(GridLayout.UNDEFINED, 2);
-            }
-            GridLayout.LayoutParams gridParam = new GridLayout.LayoutParams(
-                    rowSpan, colspan);
-            mGridLayout.addView(taskNum, gridParam);
-        }*/
 
     private void startChartActivity() {
         Log.d(TAG, "startChartActivity()");
-        //Intent intent = new Intent(this, ChartViewActivity.class);
-        //this.startActivity(intent);
+        Rewards mTasks = new Rewards();
+        mTasks = CreateModel.createTask(mItems);
+        Intent intent = new Intent(this, ChartViewActivity.class);
+        intent.putExtra(CURRENT_TASKS, mTasks);
+        this.startActivity(intent);
     }
 
     @Override
     public void onAPITaskCompleted(String result) {
-        //TODO: Implement util to build some sort of object from the result string...
         mRandomTasks = result;
-        Log.d(TAG, "Got: " + mRandomTasks);
+        //Log.d(TAG, "Got: " + mRandomTasks);
         populateListView();
     }
 }

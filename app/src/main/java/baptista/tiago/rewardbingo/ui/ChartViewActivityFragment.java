@@ -15,6 +15,7 @@ import java.util.List;
 
 import adapters.ChartViewAdapter;
 import baptista.tiago.rewardbingo.R;
+import models.AllRewards;
 import models.Rewards;
 
 /**
@@ -26,7 +27,8 @@ public class ChartViewActivityFragment extends Fragment {
     private Context mContext;
     private View mView;
     private RecyclerView mRecyclerView;
-    private List<Rewards> mRewards;
+    private AllRewards mRewards;
+
 
     public ChartViewActivityFragment() {
         Log.d(TAG, "ChartViewActivityFragment()");
@@ -64,7 +66,7 @@ public class ChartViewActivityFragment extends Fragment {
 
     private void updateDisplay() {
         Log.d(TAG, "updateDisplay()");
-        ChartViewAdapter adapter = new ChartViewAdapter(mContext, mRewards);
+        ChartViewAdapter adapter = new ChartViewAdapter(mContext, mRewards.getRewards());
         mRecyclerView.setAdapter(adapter);
 
         // Work out span for proper column layout

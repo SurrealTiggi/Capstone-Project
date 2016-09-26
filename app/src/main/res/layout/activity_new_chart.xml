@@ -64,15 +64,17 @@
             android:hint="@string/user_to_track"/>
     </LinearLayout>
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/taskListView"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="297dp"
-        android:id="@+id/newTasksScrollview">
+        android:id="@+id/newTasksScrollview"
+        android:visibility="gone">
 
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/taskListView"/>
     </ScrollView>
 
     <LinearLayout
