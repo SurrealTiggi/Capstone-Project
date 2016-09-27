@@ -35,7 +35,7 @@ public class RewardsDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_REWARDS_TABLE = "CREATE TABLE " + RewardsTable.TABLE_NAME + " (" +
                 RewardsTable.COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 RewardsTable.COL_USER + " TEXT," +
-                RewardsTable.COL_DAY + " DATETIME DEFAULT current_timestamp," +
+                RewardsTable.COL_DAY + " TEXT," +
                 RewardsTable.COL_TASK + " TEXT," +
                 RewardsTable.COL_TASK_NUMBER + " INT," +
                 RewardsTable.COL_DONE + " INT," +

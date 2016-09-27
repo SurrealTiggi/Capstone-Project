@@ -51,7 +51,7 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
     public String mTasks;
     private Context mContext;
     private String mRandomTasks;
-    private List<String> mItems = new ArrayList<String>();
+    private List<String> mItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,6 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
         //TODO: Disable back button, put in warning window to return to main screen for confirmation (won't save).
         //TODO: Save bundle when user leaves the app.
         //TODO: If Bundle exists and has data, Toast and pre-load values???
-        //TODO: Always check if there's a currently incomplete chart in history for current user, complete it if there is...
 
         ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
                 .createFromResource(this, R.array.tasks_array,
@@ -90,7 +89,6 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
 
             @Override
             public void onClick(View v) {
-                //TODO: Re-create tasks grid with existing elements.
                 updateTaskAdapter(mTasks, 1);
             }
         });
@@ -121,6 +119,7 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
         //Log.d(TAG, "updateTaskAdapter(" + edgeCase + ")");
         // Always check what we have before continuing
         mName = mUserEditText.getText().toString();
+        //TODO: Always check if there's a currently incomplete chart in history for current user, complete it if there is...
         int taskTotal = Integer.parseInt(tasks);
 
         if (mName.matches("")) {
@@ -151,17 +150,16 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
 
     private void populateListView() {
         Log.d(TAG, "populateListView()");
+        mItems = new ArrayList<String>();
 
         if (mRandomTasks == null) {
-            Log.d(TAG, "NULL");
             for (int i = 0; i < Integer.valueOf(mTasks); i++) {
-                mItems.add("Enter task description");
+                //TODO: Should be dynamic EditText
+                mItems.add("Long press to edit task");
             }
         } else {
-            Log.d(TAG, "NOT NULL");
             mItems = Arrays.asList(mRandomTasks.split("\\s*: \\s*"));
         }
-        Log.d(TAG, "Items are: " + mItems);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mItems);
 
@@ -170,18 +168,21 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
     }
 
     private void startChartActivity() {
-        Log.d(TAG, "startChartActivity()");
-        Rewards mTasks = new Rewards();
-        mTasks = CreateModel.createTask(mItems);
-        Intent intent = new Intent(this, ChartViewActivity.class);
-        intent.putExtra(CURRENT_TASKS, mTasks);
-        this.startActivity(intent);
+        Log.d(TAG, "startChartActivity(): " + mItems);
+        if (mItems != null) {
+            List<Rewards> tasks = CreateModel.createTaskList(mItems, mName);
+            //TODO: Pass tasks into ContentProvider to load in activity
+            Intent intent = new Intent(this, ChartViewActivity.class);
+            //intent.putExtra(CURRENT_TASKS, tasks);
+            //this.startActivity(intent);
+        } else {
+            Toast.makeText(this, "Can't save as you have not created any tasks...", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onAPITaskCompleted(String result) {
         mRandomTasks = result;
-        //Log.d(TAG, "Got: " + mRandomTasks);
         populateListView();
     }
 }

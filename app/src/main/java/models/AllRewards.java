@@ -1,11 +1,14 @@
 package models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * Created by Tiggi on 9/26/2016.
  */
-public class AllRewards {
+public class AllRewards{
 
     private List<Rewards> mRewards;
 
@@ -16,4 +19,5 @@ public class AllRewards {
     public void setRewards(List<Rewards> rewards) {
         mRewards = rewards;
     }
+
 }
