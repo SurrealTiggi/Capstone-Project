@@ -44,6 +44,41 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:baselineAligned="false"
+        android:layout_gravity="bottom|center"
+        android:gravity="center">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SAVE"
+            android:id="@+id/buttonCurrentSave"
+            android:padding="@dimen/border_padding_regular"
+            android:textSize="@dimen/button_small_text_size"
+            android:textColor="@color/textSecondary"
+            android:background="@drawable/border_dark"
+            android:layout_margin="2dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="COMPLETE"
+            android:id="@+id/buttonComplete"
+            android:padding="@dimen/border_padding_regular"
+            android:textSize="@dimen/button_small_text_size"
+            android:textColor="@color/textSecondary"
+            android:background="@drawable/border_dark"
+            android:layout_margin="2dp"/>
     </LinearLayout>
 
 </FrameLayout>

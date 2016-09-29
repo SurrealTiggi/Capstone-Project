@@ -204,12 +204,13 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
             } catch (RemoteException | OperationApplicationException | UnsupportedOperationException e) {
                 Log.e(TAG, "Error updating content.", e);
             }
+            // Quick test to check if we inserted correctly
+            testRetrieve();
 
+            // Start the next activity...finally...
             Intent intent = new Intent(this, ChartViewActivity.class);
             intent.putExtra(PARENT, MainActivity.class.getSimpleName());
-
-            testRetrieve();
-            //this.startActivity(intent);
+            this.startActivity(intent);
         } else {
             Toast.makeText(this, "Can't save as you have not created any tasks...", Toast.LENGTH_SHORT).show();
         }

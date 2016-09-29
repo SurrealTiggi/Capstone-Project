@@ -10,13 +10,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.animation.AlphaAnimation;
+import android.widget.Button;
 
 import java.util.List;
 
 import adapters.ChartViewAdapter;
 import baptista.tiago.rewardbingo.R;
-import models.AllRewards;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import data.RewardsDbHelper;
 import models.Rewards;
 
 /**
@@ -28,7 +31,8 @@ public class ChartViewActivityFragment extends Fragment {
     private Context mContext;
     private View mView;
     private RecyclerView mRecyclerView;
-    private AllRewards mRewards;
+    private List<Rewards> mRewards;
+    private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
 
 
     public ChartViewActivityFragment() {
@@ -41,9 +45,8 @@ public class ChartViewActivityFragment extends Fragment {
         this.mContext = getActivity();
         setHasOptionsMenu(true);
         setRetainInstance(true);
+
         //TODO: Check if coming in via current chart or history chart, disable editing if history
-        ComponentName prev = this.getActivity().getCallingActivity();
-        Log.d(TAG, "My parent is: " + prev.getShortClassName());
     }
 
     @Override
@@ -54,7 +57,23 @@ public class ChartViewActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView()");
+        //Log.d(TAG, "onCreateView()");
+
+
+        /*mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(buttonClick);
+            }
+        });
+
+        mCompleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(buttonClick);
+            }
+        });*/
+
         this.mView = inflater.inflate(R.layout.fragment_chart_view, container, false);
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.chartRecyclerView);
         getRewards();
@@ -64,12 +83,12 @@ public class ChartViewActivityFragment extends Fragment {
 
     private void getRewards() {
         //TODO: Build data model to populate view, ie. fetch from local db with contentprovider
-        mRewards = null;
+        mRewards = new RewardsDbHelper(this.mContext).getAllRewards();
     }
 
     private void updateDisplay() {
         Log.d(TAG, "updateDisplay()");
-        ChartViewAdapter adapter = new ChartViewAdapter(mContext, mRewards.getRewards());
+        ChartViewAdapter adapter = new ChartViewAdapter(mContext, mRewards);
         mRecyclerView.setAdapter(adapter);
 
         // Work out span for proper column layout

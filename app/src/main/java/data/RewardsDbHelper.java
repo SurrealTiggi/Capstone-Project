@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import data.RewardsContract.RewardsTable;
+import models.Rewards;
 
 /**
  * Created by Tiggi on 8/9/2016.
@@ -54,6 +55,7 @@ public class RewardsDbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    // TODO: Temp query just to test, DELETE
     public List<String> getAllData() {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -70,13 +72,33 @@ public class RewardsDbHelper extends SQLiteOpenHelper {
                     c.getString(c.getColumnIndexOrThrow(RewardsTable.COL_TASK_NUMBER)) + "| " +
                     c.getString(c.getColumnIndexOrThrow(RewardsTable.COL_TASK)) + "\n");
         }
-
-
         return retList;
     }
 
+    // TODO: Temp query just to test, DELETE
     public void deleteAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + RewardsTable.TABLE_NAME);
+    }
+
+    // TODO: Temp query just to test, DELETE
+    public List<Rewards> getAllRewards() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + RewardsTable.TABLE_NAME;
+        Cursor c = db.rawQuery(query, null);
+
+        List<Rewards> retList = new ArrayList<Rewards>();
+
+        while (c.moveToNext()) {
+            Rewards currentRewards = new Rewards();
+            currentRewards.setArchive(Boolean.parseBoolean(c.getString(c.getColumnIndexOrThrow(RewardsTable.COL_ARCHIVED))));
+            currentRewards.setDone(Boolean.parseBoolean(c.getString(c.getColumnIndexOrThrow(RewardsTable.COL_DONE))));
+            currentRewards.setDay(c.getString(c.getColumnIndexOrThrow(RewardsTable.COL_DAY)));
+            currentRewards.setTask(c.getString(c.getColumnIndexOrThrow(RewardsTable.COL_TASK)));
+            currentRewards.setTaskNumber(c.getInt(c.getColumnIndexOrThrow(RewardsTable.COL_TASK_NUMBER)));
+            currentRewards.setUser(c.getString(c.getColumnIndexOrThrow(RewardsTable.COL_USER)));
+            retList.add(currentRewards);
+        }
+        return retList;
     }
 }
