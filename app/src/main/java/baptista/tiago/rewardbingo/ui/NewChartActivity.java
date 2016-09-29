@@ -1,9 +1,16 @@
 package baptista.tiago.rewardbingo.ui;
 
 import android.app.ListActivity;
+import android.content.ContentProviderOperation;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.RemoteException;
+import android.provider.BaseColumns;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,6 +26,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +36,9 @@ import baptista.tiago.rewardbingo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import data.RewardsContract;
+import data.RewardsDbHelper;
+import data.RewardsProvider;
 import models.Rewards;
 import tasks.FetchTasks;
 import tasks.OnTasksCompleted;
@@ -39,7 +51,7 @@ import utils.CreateModel;
 public class NewChartActivity extends AppCompatActivity implements OnTasksCompleted {
 
     public static final String TAG = NewChartActivity.class.getSimpleName();
-    public static final String CURRENT_TASKS = "CURRENT_TASKS";
+    public static final String PARENT = "PARENT";
     @Bind(R.id.taskSpinner) Spinner mTaskSpinner;
     @Bind(R.id.userEditText) EditText mUserEditText;
     @Bind(R.id.buttonClear) Button mClearButton;
@@ -90,6 +102,7 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
             @Override
             public void onClick(View v) {
                 updateTaskAdapter(mTasks, 1);
+                clearAll();
             }
         });
 
@@ -116,8 +129,6 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
     }
 
     private void updateTaskAdapter(String tasks, int edgeCase) {
-        //Log.d(TAG, "updateTaskAdapter(" + edgeCase + ")");
-        // Always check what we have before continuing
         mName = mUserEditText.getText().toString();
         //TODO: Always check if there's a currently incomplete chart in history for current user, complete it if there is...
         int taskTotal = Integer.parseInt(tasks);
@@ -136,7 +147,6 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
                     mRandomTasks = null;
                     mListView.setAdapter(null);
                     break;
-                    //mTaskSpinner.requestFocus();
                 case 2:
                     Log.d(TAG, "Fetching external data....");
                     new FetchTasks(this).execute("https://udacity-3-1252.appspot.com/_ah/api", mTasks);
@@ -162,8 +172,6 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mItems);
-
-        //ListView listView = (ListView) findViewById(R.id.taskListView);
         mListView.setAdapter(adapter);
     }
 
@@ -171,13 +179,49 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
         Log.d(TAG, "startChartActivity(): " + mItems);
         if (mItems != null) {
             List<Rewards> tasks = CreateModel.createTaskList(mItems, mName);
-            //TODO: Pass tasks into ContentProvider to load in activity
+
+            // Loop through task list and add into local store using ContentProvider
+            ArrayList<ContentProviderOperation> cpo = new ArrayList<>();
+            Uri dirUri = RewardsContract.RewardsTable.buildSingleUri();
+
+            try {
+                for (int i = 0; i < tasks.size(); i++) {
+                    ContentValues values = new ContentValues();
+                    Rewards currentTask = tasks.get(i);
+
+                    values.put(RewardsContract.RewardsTable.COL_USER, currentTask.getUser());
+                    values.put(RewardsContract.RewardsTable.COL_ARCHIVED, currentTask.isArchive());
+                    values.put(RewardsContract.RewardsTable.COL_DONE, currentTask.isDone());
+                    values.put(RewardsContract.RewardsTable.COL_TASK, currentTask.getTask());
+                    values.put(RewardsContract.RewardsTable.COL_TASK_NUMBER, currentTask.getTaskNumber());
+                    values.put(RewardsContract.RewardsTable.COL_DAY, currentTask.getDay());
+
+                    cpo.add(ContentProviderOperation.newInsert(dirUri).withValues(values).build());
+                }
+
+                getContentResolver().applyBatch(RewardsContract.CONTENT_AUTHORITY, cpo);
+
+            } catch (RemoteException | OperationApplicationException | UnsupportedOperationException e) {
+                Log.e(TAG, "Error updating content.", e);
+            }
+
             Intent intent = new Intent(this, ChartViewActivity.class);
-            //intent.putExtra(CURRENT_TASKS, tasks);
+            intent.putExtra(PARENT, MainActivity.class.getSimpleName());
+
+            testRetrieve();
             //this.startActivity(intent);
         } else {
             Toast.makeText(this, "Can't save as you have not created any tasks...", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void testRetrieve() {
+        List<String> retList = new RewardsDbHelper(this).getAllData();
+        Log.d(TAG, "Fetched from db: " + retList);
+    }
+
+    public void clearAll() {
+        new RewardsDbHelper(this).deleteAllData();
     }
 
     @Override

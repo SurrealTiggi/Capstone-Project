@@ -16,6 +16,7 @@ public class RewardsProvider extends ContentProvider {
     private RewardsDbHelper mDbHelper;
 
     // URI Identifiers
+    static final int REWARDS_SINGLE = 0;
     static final int REWARDS_ALL = 100;
     static final int REWARDS_ACTIVE = 101;
     static final int REWARDS_ARCHIVED = 102;
@@ -44,6 +45,7 @@ public class RewardsProvider extends ContentProvider {
         matcher.addURI(authority, "active", REWARDS_ACTIVE);
         matcher.addURI(authority, "archived", REWARDS_ARCHIVED);
         matcher.addURI(authority, "archived_chart", REWARDS_SINGLE_ARCHIVED);
+        matcher.addURI(authority, "single", REWARDS_SINGLE);
         return matcher;
     }
 
@@ -61,6 +63,9 @@ public class RewardsProvider extends ContentProvider {
             }
             else if(link.contentEquals(RewardsContract.RewardsTable.buildArchivedChartUri().toString())) {
                 return REWARDS_SINGLE_ARCHIVED;
+            }
+            else if(link.contentEquals(RewardsContract.RewardsTable.buildSingleUri().toString())) {
+                return REWARDS_SINGLE;
             }
         }
         return -1;
@@ -124,7 +129,18 @@ public class RewardsProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        int match = match_uri(uri);
+
+        switch (match) {
+            case REWARDS_SINGLE: {
+                final long rewards_id = db.insertOrThrow(RewardsContract.RewardsTable.TABLE_NAME, null, values);
+                getContext().getContentResolver().notifyChange(uri, null);
+                return RewardsContract.RewardsTable.buildSingleUri();
+            } default: {
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+            }
+        }
     }
 
 
@@ -160,26 +176,4 @@ public class RewardsProvider extends ContentProvider {
                 return super.bulkInsert(uri,values);
         }
     }
-    /*static {
-        // This should just return the entire table...
-        // rewards
-        RewardsQuery.setTables(
-                RewardsContract.RewardsTable.TABLE_NAME
-        );
-    }
-
-    private Cursor getActiveRewardsByUser(Uri uri, String[] projection, String sortOrder) {
-        // Needs to return a query
-        String user = "Ted";
-
-        return RewardsQuery.query(mDbHelper.getReadableDatabase(),
-                projection,
-                mActiveRewards,
-                new String[] {user},
-                null,
-                null,
-                sortOrder
-        );
-    }*/
-
 }

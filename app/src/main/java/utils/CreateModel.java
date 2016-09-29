@@ -20,7 +20,7 @@ public class CreateModel {
     public static List<Rewards> createTaskList(List<String> tasksToProcess, String user) {
         List<Rewards> tasks = new ArrayList<Rewards>();
 
-        Log.d(TAG, "createTask(): " + tasksToProcess + "| for user: " + user);
+        //Log.d(TAG, "createTask(): " + tasksToProcess + "| for user: " + user);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
         Calendar cal = Calendar.getInstance();
 

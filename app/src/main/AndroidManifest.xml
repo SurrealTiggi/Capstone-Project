@@ -34,6 +34,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="baptista.tiago.rewardbingo.ui.MainActivity" />
         </activity>
+
+        <provider android:name="data.RewardsProvider"
+                  android:authorities="baptista.tiago.rewardbingo"
+                  android:exported="false" />
     </application>
 
 </manifest>

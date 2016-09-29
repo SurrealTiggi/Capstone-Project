@@ -24,12 +24,19 @@ public class RewardsContract {
 
         // Table structure
         public static final String TABLE_NAME = "rewards";
+        /** Type: INTEGER PRIMARY KEY AUTOINCREMENT */
         public static final String COL_ID = "rewards_id";
+        /** Type: TEXT */
         public static final String COL_USER = "user";
+        /** Type: TEXT */
         public static final String COL_DAY = "timestamp";
+        /** Type: TEXT */
         public static final String COL_TASK = "task_desc";
+        /** Type: INT */
         public static final String COL_TASK_NUMBER = "task_num";
+        /** Type: INT */
         public static final String COL_DONE = "is_done";
+        /** Type: INT */
         public static final String COL_ARCHIVED = "is_archived";
 
         // URI Types
@@ -42,15 +49,21 @@ public class RewardsContract {
         /*public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendEncodedPath(REWARDS_PATH).build();*/
 
-
+        /** Matches: /active/ */
         public static Uri buildActiveRewardsUri() {
             return BASE_CONTENT_URI.buildUpon().appendPath("active").build();
         }
+        /** Matches: /archived/ */
         public static Uri buildArchivedUri() {
             return BASE_CONTENT_URI.buildUpon().appendPath("archived").build();
         }
+        /** Matches: /archived_chart/ */
         public static Uri buildArchivedChartUri() {
             return BASE_CONTENT_URI.buildUpon().appendPath("archived_chart").build();
+        }
+        /*Matches: /single/ */
+        public static Uri buildSingleUri() {
+            return BASE_CONTENT_URI.buildUpon().appendPath("single").build();
         }
     }
 }

@@ -1,5 +1,6 @@
 package baptista.tiago.rewardbingo.ui;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -41,6 +42,8 @@ public class ChartViewActivityFragment extends Fragment {
         setHasOptionsMenu(true);
         setRetainInstance(true);
         //TODO: Check if coming in via current chart or history chart, disable editing if history
+        ComponentName prev = this.getActivity().getCallingActivity();
+        Log.d(TAG, "My parent is: " + prev.getShortClassName());
     }
 
     @Override
