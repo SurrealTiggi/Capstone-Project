@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
@@ -7,78 +7,59 @@
              android:paddingLeft="@dimen/activity_horizontal_margin"
              android:paddingRight="@dimen/activity_horizontal_margin"
              android:paddingTop="@dimen/activity_vertical_margin"
+             android:orientation="vertical"
              tools:context="baptista.tiago.rewardbingo.ui.ChartViewActivityFragment"
              tools:showIn="@layout/activity_chart_view">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView"
+            android:layout_above="@+id/buttonLinearLayout"
+            android:layout_alignParentTop="true">
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/chartRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </ScrollView>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="0dp"
+            android:id="@+id/buttonLinearLayout">
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tasks"
-                android:id="@+id/tasksTextView"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
+                android:text="SAVE"
+                android:id="@+id/buttonCurrentSave"
+                android:padding="@dimen/border_padding_regular"
                 android:textSize="@dimen/button_small_text_size"
-                android:textColor="@color/textSecondary"/>
+                android:textColor="@color/textSecondary"
+                android:background="@drawable/border_dark"
+                android:layout_margin="2dp"/>
 
-            <TextView
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/chart_week_days"
-                android:id="@+id/weekDaysTextview"
+                android:text="COMPLETE"
+                android:id="@+id/buttonComplete"
+                android:padding="@dimen/border_padding_regular"
                 android:textSize="@dimen/button_small_text_size"
-                android:textColor="@color/textSecondary"/>
+                android:textColor="@color/textSecondary"
+                android:background="@drawable/border_dark"
+                android:layout_margin="2dp"/>
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/chartRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:baselineAligned="false"
-        android:layout_gravity="bottom|center"
-        android:gravity="center">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SAVE"
-            android:id="@+id/buttonCurrentSave"
-            android:padding="@dimen/border_padding_regular"
-            android:textSize="@dimen/button_small_text_size"
-            android:textColor="@color/textSecondary"
-            android:background="@drawable/border_dark"
-            android:layout_margin="2dp"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="COMPLETE"
-            android:id="@+id/buttonComplete"
-            android:padding="@dimen/border_padding_regular"
-            android:textSize="@dimen/button_small_text_size"
-            android:textColor="@color/textSecondary"
-            android:background="@drawable/border_dark"
-            android:layout_margin="2dp"/>
-    </LinearLayout>
-
-</FrameLayout>
+</RelativeLayout>

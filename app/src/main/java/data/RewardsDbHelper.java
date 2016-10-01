@@ -56,26 +56,6 @@ public class RewardsDbHelper extends SQLiteOpenHelper {
     }
 
     // TODO: Temp query just to test, DELETE
-    public List<String> getAllData() {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + RewardsTable.TABLE_NAME;
-        Cursor c = db.rawQuery(query, null);
-        List<String> retList = new ArrayList<String>();
-
-
-        while (c.moveToNext()) {
-            retList.add(
-                    "ID[" + c.getString(c.getColumnIndexOrThrow(RewardsTable.COL_ID)) + "] | " +
-                    c.getString(c.getColumnIndexOrThrow(RewardsTable.COL_DAY)) + "| " +
-                    c.getString(c.getColumnIndexOrThrow(RewardsTable.COL_USER)) + "| " +
-                    c.getString(c.getColumnIndexOrThrow(RewardsTable.COL_TASK_NUMBER)) + "| " +
-                    c.getString(c.getColumnIndexOrThrow(RewardsTable.COL_TASK)) + "\n");
-        }
-        return retList;
-    }
-
-    // TODO: Temp query just to test, DELETE
     public void deleteAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + RewardsTable.TABLE_NAME);
@@ -97,8 +77,19 @@ public class RewardsDbHelper extends SQLiteOpenHelper {
             currentRewards.setTask(c.getString(c.getColumnIndexOrThrow(RewardsTable.COL_TASK)));
             currentRewards.setTaskNumber(c.getInt(c.getColumnIndexOrThrow(RewardsTable.COL_TASK_NUMBER)));
             currentRewards.setUser(c.getString(c.getColumnIndexOrThrow(RewardsTable.COL_USER)));
+            currentRewards.setId(c.getInt(c.getColumnIndexOrThrow(RewardsTable.COL_ID)));
+
             retList.add(currentRewards);
         }
         return retList;
     }
+
+    public void updateRewards(List<Rewards> rewardsToUpdate) {
+        //TODO: Loop through given ID's and update to be done
+    }
+
+    public void archiveRewards(List<Rewards> rewardsToArchive) {
+        //TODO: Loop through given ID's and update to archive
+    }
+
 }

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     @Bind(R.id.newChartTextView) TextView mNewChart;
     @Bind(R.id.viewChartTextView) TextView mViewChart;
+    @Bind(R.id.archiveButton) Button mArchiveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mArchiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startArchiveActivity();
+            }
+        });
+
     }
 
     private void startNewChartActivity() {
@@ -55,6 +64,12 @@ public class MainActivity extends AppCompatActivity {
     private void startViewChartActivity() {
         Log.d(TAG, "startViewChartActivity()");
         Intent intent = new Intent(this, ChartViewActivity.class);
+        this.startActivity(intent);
+    }
+
+    private void startArchiveActivity() {
+        Log.d(TAG, "startArchiveActivity()");
+        Intent intent = new Intent(this, ArchiveActivity.class);
         this.startActivity(intent);
     }
 

@@ -18,7 +18,7 @@
         android:id="@+id/logoTextView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="10dp"
         android:textSize="@dimen/button_large_text_size"
         android:background="@drawable/border_light"
         android:padding="@dimen/border_padding_regular"/>
@@ -29,32 +29,56 @@
         android:id="@+id/imageView"
         android:layout_below="@+id/logoTextView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/logo_star"
         android:scaleType="fitXY"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/new_chart"
-        android:textColor="@color/textSecondary"
-        android:id="@+id/newChartTextView"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="79dp"
-        android:textSize="@dimen/button_large_text_size"
-        android:background="@drawable/border_dark"
-        android:padding="@dimen/border_padding_regular"/>
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/view_charts"
-        android:id="@+id/viewChartTextView"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="@dimen/button_large_text_size"
-        android:textColor="@color/textSecondary"
-        android:background="@drawable/border_dark"
-        android:padding="@dimen/border_padding_regular"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_chart"
+            android:textColor="@color/textSecondary"
+            android:id="@+id/newChartTextView"
+            android:textSize="@dimen/button_large_text_size"
+            android:background="@drawable/border_dark"
+            android:padding="@dimen/border_padding_regular"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/logoTextView"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view_charts"
+            android:id="@+id/viewChartTextView"
+            android:textSize="@dimen/button_large_text_size"
+            android:textColor="@color/textSecondary"
+            android:background="@drawable/border_dark"
+            android:padding="@dimen/border_padding_regular"
+            android:layout_below="@id/newChartTextView"
+            android:layout_centerHorizontal="true"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HISTORY"
+            android:id="@+id/archiveButton"
+            android:padding="@dimen/border_padding_regular"
+            android:textSize="@dimen/button_small_text_size"
+            android:textColor="@color/textSecondary"
+            android:background="@drawable/border_dark"
+            android:layout_gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
+    </LinearLayout>
+
 </RelativeLayout>

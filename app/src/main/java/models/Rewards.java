@@ -14,6 +14,7 @@ public class Rewards implements Parcelable {
     private int mTaskNumber;
     private boolean mDone;
     private boolean mArchive;
+    private int _id;
 
     public Rewards() {
     }
@@ -28,6 +29,7 @@ public class Rewards implements Parcelable {
         mTaskNumber = in.readInt();
         mDone = in.readByte() != 0;
         mArchive = in.readByte() != 0;
+        _id = in.readInt();
     }
 
     @Override
@@ -38,6 +40,7 @@ public class Rewards implements Parcelable {
         dest.writeInt(mTaskNumber);
         dest.writeByte((byte) (mDone ? 1 : 0));
         dest.writeByte((byte) (mArchive ? 1 : 0));
+        dest.writeInt(_id);
     }
 
     @Override
@@ -92,6 +95,14 @@ public class Rewards implements Parcelable {
 
     public void setTaskNumber(int taskNumber) {
         mTaskNumber = taskNumber;
+    }
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setId(int id) {
+        _id = id;
     }
 
     public boolean isDone() {

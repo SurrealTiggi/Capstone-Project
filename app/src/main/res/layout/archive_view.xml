@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/history_title"
+        android:textColor="@color/textSecondary"
+        android:id="@+id/historyTextView"
+        android:textSize="@dimen/button_regular_text_size"
+        android:background="@drawable/border_dark"
+        android:padding="@dimen/border_padding_regular"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView2"
+        android:layout_below="@+id/historyTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/historyRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </ScrollView>
+
+</RelativeLayout>

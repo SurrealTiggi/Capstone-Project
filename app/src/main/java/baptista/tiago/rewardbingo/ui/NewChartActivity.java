@@ -205,7 +205,7 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
                 Log.e(TAG, "Error updating content.", e);
             }
             // Quick test to check if we inserted correctly
-            testRetrieve();
+            //testRetrieve();
 
             // Start the next activity...finally...
             Intent intent = new Intent(this, ChartViewActivity.class);
@@ -216,10 +216,10 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
         }
     }
 
-    public void testRetrieve() {
-        List<String> retList = new RewardsDbHelper(this).getAllData();
+    /*public void testRetrieve() {
+        List<Rewards> retList = new RewardsDbHelper(this).getAllRewards();
         Log.d(TAG, "Fetched from db: " + retList);
-    }
+    }*/
 
     public void clearAll() {
         new RewardsDbHelper(this).deleteAllData();
