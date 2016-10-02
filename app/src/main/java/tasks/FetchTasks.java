@@ -2,7 +2,6 @@ package tasks;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.appspot.myapplicationid.myApi.MyApi;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -15,11 +14,12 @@ import java.io.IOException;
  */
 public class FetchTasks extends AsyncTask<String, Void, String> {
 
+    //TODO: Update to Intent Service (Check football scores)
+
     private final static String TAG = FetchTasks.class.getSimpleName();
     private static MyApi myApiService = null;
 
     private OnTasksCompleted delegate;
-    private String result;
 
     public FetchTasks(OnTasksCompleted delegate) {
         Log.d(TAG, "FetchTasks()");
@@ -37,6 +37,7 @@ public class FetchTasks extends AsyncTask<String, Void, String> {
             myApiService = builder.build();
         }
 
+        String result;
         try {
             Log.d(TAG, "Trying to get tasks...");
             int numTasks = Integer.valueOf(params[1]);

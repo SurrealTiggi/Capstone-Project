@@ -3,8 +3,6 @@ package utils;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,10 +19,10 @@ public class CreateHistory {
     public static final String TAG = CreateHistory.class.getSimpleName();
 
     public static List<History> parseRewards(List<Rewards> fullRewards) {
-        List<History> mHistory = new ArrayList<History>();
+        List<History> mHistory = new ArrayList<>();
 
-        HashMap<String, String> mHistoryHash = new HashMap<String, String>();
-        String startDay = new String();
+        HashMap<String, String> mHistoryHash = new HashMap<>();
+        String startDay = "";
         int score = 0;
         int total = 0;
 
@@ -47,13 +45,13 @@ public class CreateHistory {
                 // Add to score
                 score++;
             }
-            Log.d(TAG, "Processed user: " + currentReward.getUser() + ", total: " + total);
+            //Log.d(TAG, "Processed user: " + currentReward.getUser() + ", total: " + total);
 
             mHistoryHash.put(
                     currentReward.getUser(),
                     startDay +", " + score + "/" + total);
         }
-        //TODO: Iterate through hashmap and build mHistory
+
         Iterator it = mHistoryHash.entrySet().iterator();
         while (it.hasNext()) {
             History hist = new History();
