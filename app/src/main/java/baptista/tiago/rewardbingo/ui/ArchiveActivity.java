@@ -42,7 +42,6 @@ public class ArchiveActivity extends AppCompatActivity {
     }
 
     private void updateDisplay() {
-        //TODO: Parse mHistRewards to only send a list of singles for adapter
 
         Log.d(TAG, "updateDisplay()");
         ArchiveViewAdapter adapter = new ArchiveViewAdapter(this, mHistory);

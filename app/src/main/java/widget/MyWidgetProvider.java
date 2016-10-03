@@ -60,10 +60,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
         int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
 
         //Background intent to call asynctask
-        Intent intent = new Intent(context, myFetchService.class);
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
+        //Intent intent = new Intent(context, myFetchService.class);
+        //intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, allWidgetIds);
 
         //Update widgets with above intent
-        context.startService(intent);
+        //context.startService(intent);
     }
 }

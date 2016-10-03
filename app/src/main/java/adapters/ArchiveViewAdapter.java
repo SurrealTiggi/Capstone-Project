@@ -60,7 +60,6 @@ public class ArchiveViewAdapter extends RecyclerView.Adapter<ArchiveViewAdapter.
             nameHist.setText(history.getUser());
             dateHist.setText(history.getStartDay());
             totalHist.setText(history.getTotal());
-            //TODO: Set delete onClick???
         }
     }
 

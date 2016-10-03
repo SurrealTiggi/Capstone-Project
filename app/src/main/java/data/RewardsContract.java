@@ -16,10 +16,6 @@ public class RewardsContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String REWARDS_PATH = "rewards";
 
-    public static void convertDate() {
-        //TODO: Might need a method here to convert dates into weekdays
-    }
-
     public static final class RewardsTable implements BaseColumns {
 
         // Table structure

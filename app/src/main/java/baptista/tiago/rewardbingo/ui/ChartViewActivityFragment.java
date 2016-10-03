@@ -32,6 +32,7 @@ import tasks.OnItemDone;
 public class ChartViewActivityFragment extends Fragment implements OnItemDone {
 
     private static final String TAG = ChartViewActivityFragment.class.getSimpleName();
+    private static String CONTEXT_PARENT_FLAG = "PARENT";
     private Context mContext;
     private View mView;
     private ViewGroup mContainer;
@@ -53,7 +54,15 @@ public class ChartViewActivityFragment extends Fragment implements OnItemDone {
         this.mContext = getActivity();
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        //TODO: Check if coming in via current chart or history chart, disable editing if history
+        Log.d(TAG, "My parent was: " + this.getContext());
+        /*Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            String PARENT = bundle.getString(CONTEXT_PARENT_FLAG);
+            Log.d(TAG, "My parent was: " + PARENT);
+        } else {
+            Log.d(TAG, "Bundle is null");
+        }*/
+        //TODO: EXTRA: Check if coming in via current chart or history chart, disable editing if history
     }
 
     @Override
@@ -75,7 +84,7 @@ public class ChartViewActivityFragment extends Fragment implements OnItemDone {
             @Override
             public void onClick(View v) {
                 v.startAnimation(buttonClick);
-                // TODO: Save entire object to ContentProvider
+                // TODO: CONTENTPROVIDER: Save entire object to ContentProvider
                 saveToLocal();
             }
         });
@@ -84,7 +93,7 @@ public class ChartViewActivityFragment extends Fragment implements OnItemDone {
             @Override
             public void onClick(View v) {
                 v.startAnimation(buttonClick);
-                // TODO: Implement archival method
+                // TODO: CONTENTPROVIDER: Archive everything where isArchived = false;
                 archiveAndSave();
             }
         });
@@ -96,7 +105,7 @@ public class ChartViewActivityFragment extends Fragment implements OnItemDone {
     }
 
     private void getRewards() {
-        //TODO: Build data model to populate view, ie. fetch from local db with contentprovider
+        //TODO: CONTENTPROVIDER: Get everything
         mRewards = new RewardsDbHelper(this.mContext).getAllRewards();
     }
 
@@ -123,13 +132,15 @@ public class ChartViewActivityFragment extends Fragment implements OnItemDone {
     }
 
     private void saveToLocal() {
-        new RewardsDbHelper(mContext).updateRewards(mRewards);
+        //TODO: CONTENTPROVIDER: Delete everything with given IDs and re-insert
+        //new RewardsDbHelper(mContext).updateRewards(mRewards);
     }
 
     private void archiveAndSave() {
         for (Rewards singleReward : mRewards) {
             singleReward.setArchive(true);
         }
-        new RewardsDbHelper(mContext).archiveRewards(mRewards);
+        //TODO: CONTENTPROVIDER: Delete everything with given IDs and re-insert
+        //new RewardsDbHelper(mContext).archiveRewards(mRewards);
     }
 }

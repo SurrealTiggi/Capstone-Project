@@ -14,7 +14,7 @@ import models.Rewards;
  */
 public class myFetchService extends IntentService {
 
-    //TODO: Incorporate Async task into this service
+    //TODO: CONTENTPROVIDER: Incorporate Async task into this service
     public static final String TAG = myFetchService.class.getSimpleName();
 
     public myFetchService() {

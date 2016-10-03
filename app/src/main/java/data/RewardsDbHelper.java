@@ -55,13 +55,13 @@ public class RewardsDbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // TODO: Temp query just to test, DELETE
+    // TODO: DELETE: Temp query just to test
     public void deleteAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + RewardsTable.TABLE_NAME);
     }
 
-    // TODO: Temp query just to test, DELETE
+    // TODO: DELETE: Temp query just to test
     public List<Rewards> getAllRewards() {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + RewardsTable.TABLE_NAME;
@@ -82,14 +82,6 @@ public class RewardsDbHelper extends SQLiteOpenHelper {
             retList.add(currentRewards);
         }
         return retList;
-    }
-
-    public void updateRewards(List<Rewards> rewardsToUpdate) {
-        //TODO: Loop through given ID's and update to be done
-    }
-
-    public void archiveRewards(List<Rewards> rewardsToArchive) {
-        //TODO: Loop through given ID's and update to archive
     }
 
 }

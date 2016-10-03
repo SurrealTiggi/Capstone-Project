@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
@@ -12,8 +13,10 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.provider.BaseColumns;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -61,7 +64,6 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
     @Bind(R.id.taskListView) ListView mListView;
     public String mName;
     public String mTasks;
-    private Context mContext;
     private String mRandomTasks;
     private List<String> mItems;
 
@@ -74,11 +76,6 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
         ButterKnife.bind(this);
         mRandomTasks = null;
         mItems = null;
-        //mContext = this.getBaseContext();
-
-        //TODO: Disable back button, put in warning window to return to main screen for confirmation (won't save).
-        //TODO: Save bundle when user leaves the app.
-        //TODO: If Bundle exists and has data, Toast and pre-load values???
 
         ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
                 .createFromResource(this, R.array.tasks_array,
@@ -130,7 +127,6 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
 
     private void updateTaskAdapter(String tasks, int edgeCase) {
         mName = mUserEditText.getText().toString();
-        //TODO: Always check if there's a currently incomplete chart in history for current user, complete it if there is...
         int taskTotal = Integer.parseInt(tasks);
 
         if (mName.matches("")) {
@@ -164,7 +160,7 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
 
         if (mRandomTasks == null) {
             for (int i = 0; i < Integer.valueOf(mTasks); i++) {
-                //TODO: Should be dynamic EditText
+                //TODO: UI: Should be dynamic EditText
                 mItems.add("Long press to edit task");
             }
         } else {
@@ -229,5 +225,45 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
     public void onAPITaskCompleted(String result) {
         mRandomTasks = result;
         populateListView();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            Log.d(TAG, "onKeyDown Called");
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d(TAG, "onBackPressed Called");
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("Warning, exiting here will not save your chart. Are you sure?");
+        builder1.setCancelable(false);
+
+        builder1.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent setIntent = new Intent(getBaseContext(), MainActivity.class);
+                        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(setIntent);
+                        dialog.cancel();
+                    }
+                });
+        builder1.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 }

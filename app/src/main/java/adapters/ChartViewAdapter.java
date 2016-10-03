@@ -72,12 +72,10 @@ public class ChartViewAdapter extends RecyclerView.Adapter<ChartViewAdapter.Char
 
         public void bindReward(final Rewards reward) {
             currentReward = reward;
-            //TODO: Picasso to pull task images???
+            //TODO: EXTRA: Picasso to pull task images?
             mDayTextView.setText(CreateModel.convertDate(currentReward.getDay()));
-            // TODO: Show only number but show info when task is clicked???
             mDescriptionTextView.setText(currentReward.getTaskNumber() + ") " + currentReward.getTask());
             mDoneCheckBox.setActivated(currentReward.isDone());
-            //TODO: Set onClickListener to update main object...somehow...
             mDoneCheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
