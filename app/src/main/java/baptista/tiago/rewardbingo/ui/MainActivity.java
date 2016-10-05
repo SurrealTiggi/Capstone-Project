@@ -16,6 +16,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import baptista.tiago.rewardbingo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,16 +27,22 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static String CONTEXT_PARENT_FLAG = "PARENT";
-    @Bind(R.id.newChartTextView) TextView mNewChart;
-    @Bind(R.id.viewChartTextView) TextView mViewChart;
+    @Bind(R.id.newChartTextView) Button mNewChart;
+    @Bind(R.id.viewChartTextView) Button mViewChart;
     @Bind(R.id.archiveButton) Button mArchiveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
+
+        // AdMob stuff
+        AdView adView = (AdView) this.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        adView.loadAd(adRequest);
 
         mNewChart.setOnClickListener(new View.OnClickListener() {
             @Override

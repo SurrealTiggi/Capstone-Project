@@ -62,7 +62,7 @@ public class UpdateWidgetObserver extends ContentObserver {
 
     private boolean fetchData(Cursor c) throws Exception {
         Log.d(TAG, "fetchData()");
-        //TODO: Change from using dbhelper to using contentprovider properly to get all.
+        //TODO: CONTENTPROVIDER: Change from using dbhelper to using contentprovider properly to get all.
         mAllRewards = new RewardsDbHelper(mContext).getAllRewards();
 
         mHistory = CreateHistory.parseRewards(mAllRewards);

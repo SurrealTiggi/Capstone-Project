@@ -47,7 +47,8 @@
                 android:textSize="@dimen/button_small_text_size"
                 android:textColor="@color/textSecondary"
                 android:background="@drawable/border_dark"
-                android:layout_margin="2dp"/>
+                android:layout_margin="2dp"
+                android:contentDescription="@string/content_save_button"/>
 
             <Button
                 android:layout_width="wrap_content"
@@ -58,7 +59,8 @@
                 android:textSize="@dimen/button_small_text_size"
                 android:textColor="@color/textSecondary"
                 android:background="@drawable/border_dark"
-                android:layout_margin="2dp"/>
+                android:layout_margin="2dp"
+                android:contentDescription="@string/content_complete_button"/>
         </LinearLayout>
 
 

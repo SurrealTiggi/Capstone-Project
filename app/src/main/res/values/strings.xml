@@ -20,4 +20,16 @@
     <string name="task_list_numerical">1.\n2.\n3.\n4.\n5.</string>
     <string name="title_activity_archive_view">Chart History</string>
     <string name="history_title">USER | CHART | TOTAL</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="content_save_button">Save Chart</string>
+    <string name="content_complete_button">Complete and archive chart</string>
+    <string name="content_new_chart">Create new chart</string>
+    <string name="content_view_chart">View active chart</string>
+    <string name="content_history">View history</string>
+    <string name="content_task_spinner">Select number of tasks</string>
+    <string name="content_edit_user">Type user to track</string>
+    <string name="content_save_tasks">Save tasks to chart</string>
+    <string name="content_clear_button">Clear current chart</string>
+    <string name="content_create_button">Create chart</string>
+    <string name="content_random_button">Fetch random tasks</string>
 </resources>

@@ -75,7 +75,8 @@ public class ChartViewAdapter extends RecyclerView.Adapter<ChartViewAdapter.Char
             //TODO: EXTRA: Picasso to pull task images?
             mDayTextView.setText(CreateModel.convertDate(currentReward.getDay()));
             mDescriptionTextView.setText(currentReward.getTaskNumber() + ") " + currentReward.getTask());
-            mDoneCheckBox.setActivated(currentReward.isDone());
+            //mDoneCheckBox.setActivated(currentReward.isDone());
+            mDoneCheckBox.setChecked(currentReward.isDone());
             mDoneCheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

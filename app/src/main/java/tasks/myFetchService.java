@@ -30,7 +30,7 @@ public class myFetchService extends IntentService {
     private void getData() {
         String user;
         String score;
-        //TODO: Fetch latest chart data from contentprovider
+        //TODO: CONTENTPROVIDER: Fetch latest chart data from contentprovider
 
         user = "Scrooge";
         score = "24/67";

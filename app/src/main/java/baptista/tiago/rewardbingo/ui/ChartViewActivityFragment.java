@@ -42,6 +42,8 @@ public class ChartViewActivityFragment extends Fragment implements OnItemDone {
 
     private List<Rewards> mRewards;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
+    //TODO: UI: Coordinator Layout with action bar showing user name
+    //TODO: UI: Cater for rotation and call ContentProdider???
 
 
     public ChartViewActivityFragment() {
@@ -50,11 +52,12 @@ public class ChartViewActivityFragment extends Fragment implements OnItemDone {
 
     @Override
     public void onCreate(Bundle state) {
+
         super.onCreate(state);
         this.mContext = getActivity();
         setHasOptionsMenu(true);
         setRetainInstance(true);
-        Log.d(TAG, "My parent was: " + this.getContext());
+        //Log.d(TAG, "My parent was: " + this.getContext());
         /*Bundle bundle = this.getArguments();
         if (bundle != null) {
             String PARENT = bundle.getString(CONTEXT_PARENT_FLAG);
@@ -74,8 +77,17 @@ public class ChartViewActivityFragment extends Fragment implements OnItemDone {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView()");
-        this.mContainer = container;
-        this.mView = inflater.inflate(R.layout.fragment_chart_view, container, false);
+        if (mView == null) {
+            Log.d(TAG, "View is null");
+            mContainer = container;
+            mView = inflater.inflate(R.layout.fragment_chart_view, container, false);
+            getRewards();
+
+        } else {
+            Log.d(TAG, "View is not null");
+            ((ViewGroup) mView.getParent()).removeView(mView);
+        }
+
         mSaveButton = (Button) mView.findViewById(R.id.buttonCurrentSave);
         mCompleteButton = (Button) mView.findViewById(R.id.buttonComplete);
 
@@ -99,19 +111,20 @@ public class ChartViewActivityFragment extends Fragment implements OnItemDone {
         });
 
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.chartRecyclerView);
-        getRewards();
         updateDisplay();
+
         return mView;
     }
 
     private void getRewards() {
         //TODO: CONTENTPROVIDER: Get everything
-        mRewards = new RewardsDbHelper(this.mContext).getAllRewards();
+        mRewards = new RewardsDbHelper(mContext).getAllRewards();
     }
 
     private void updateDisplay() {
-        Log.d(TAG, "updateDisplay()");
-        ChartViewAdapter adapter = new ChartViewAdapter(this, this.mContext, mRewards);
+        Log.d(TAG, "updateDisplay(): " + mRewards);
+        Log.d(TAG, "ISTRUE: " + mRewards.get(0).isDone() );
+        ChartViewAdapter adapter = new ChartViewAdapter(this, mContext, mRewards);
         mRecyclerView.setAdapter(adapter);
 
         // Work out span for proper column layout
@@ -123,10 +136,11 @@ public class ChartViewActivityFragment extends Fragment implements OnItemDone {
 
     @Override
     public void onItemDone(final Rewards reward) {
-        Log.d(TAG, "Clicked: " + reward.getId() + ", " + reward.getTask());
+        //Log.d(TAG, "Clicked: " + reward.getId() + ", " + reward.getTask());
         for (Rewards singleReward : mRewards) {
             if(singleReward.getId() == reward.getId()) {
                 singleReward.setDone(true);
+                Log.d(TAG, "Setting reward to true => " + singleReward.getId() + ", " + singleReward.isDone());
             }
         }
     }
