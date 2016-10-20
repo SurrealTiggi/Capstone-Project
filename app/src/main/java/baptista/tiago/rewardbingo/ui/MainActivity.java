@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.StringDef;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,20 +12,23 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import baptista.tiago.rewardbingo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import utils.MyAnalyticsApplication;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static String CONTEXT_PARENT_FLAG = "PARENT";
+    private Tracker mTracker;
+    private String name = "Reward Bingo: Main Screen";
     @Bind(R.id.newChartTextView) Button mNewChart;
     @Bind(R.id.viewChartTextView) Button mViewChart;
     @Bind(R.id.archiveButton) Button mArchiveButton;
@@ -43,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         adView.loadAd(adRequest);
+
+        // Analytics stuff
+        MyAnalyticsApplication application = (MyAnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        mTracker.setScreenName(name);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         mNewChart.setOnClickListener(new View.OnClickListener() {
             @Override

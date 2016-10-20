@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "990385549595",
+    "project_id": "rewardsbingo"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990385549595:android:e573441e7c5b9988",
+        "android_client_info": {
+          "package_name": "baptista.tiago.rewardbingo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3ZU6MFv2aBG_guIxyTadCHdlgmK-4Khs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-85656658-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

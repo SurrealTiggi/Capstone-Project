@@ -32,6 +32,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -59,6 +62,7 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
 
     public static final String TAG = NewChartActivity.class.getSimpleName();
     public static final String PARENT = "PARENT";
+    private Tracker mTracker;
     @Bind(R.id.taskSpinner) Spinner mTaskSpinner;
     @Bind(R.id.userEditText) EditText mUserEditText;
     @Bind(R.id.buttonClear) Button mClearButton;
@@ -82,6 +86,12 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
         ButterKnife.bind(this);
         mRandomTasks = null;
         mItems = null;
+
+        // Analytics stuff
+/*        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Action")
+                .setAction("New Chart Creation")
+                .build());*/
 
         ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
                 .createFromResource(this, R.array.tasks_array,
