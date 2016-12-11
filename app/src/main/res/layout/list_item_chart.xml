@@ -8,7 +8,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mon"
+            android:text="@string/placeholder_day"
             android:id="@+id/dateTextView"
             android:padding="5dp"
             android:layout_centerVertical="true"
@@ -19,7 +19,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1. Washed dishes"
+            android:text="@string/placeholder_example_task"
             android:id="@+id/taskDescTextView"
             android:padding="5dp"
             android:layout_alignTop="@+id/dateTextView"
@@ -30,7 +30,7 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Done?"
+        android:text="@string/chart_text_done"
         android:id="@+id/taskCheckbox"
         android:padding="5dp"
         android:layout_centerVertical="true"

@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tasks"
+            android:text="@string/new_chart_tasks"
             android:id="@+id/tasksTextView"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/button_small_text_size"
@@ -43,7 +43,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User"
+            android:text="@string/chart_title_user"
             android:id="@+id/userTextView"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/button_small_text_size"
@@ -103,7 +103,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RANDOM"
+            android:text="@string/button_text_random"
             android:id="@+id/buttonRandom"
             android:padding="@dimen/border_padding_regular"
             android:textSize="@dimen/button_small_text_size"
@@ -116,7 +116,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CREATE"
+            android:text="@string/button_text_create"
             android:id="@+id/buttonCreate"
             android:padding="@dimen/border_padding_regular"
             android:textSize="@dimen/button_small_text_size"
@@ -138,7 +138,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CLEAR"
+                android:text="@string/button_text_clear"
                 android:id="@+id/buttonClear"
                 android:padding="@dimen/border_padding_regular"
                 android:textSize="@dimen/button_small_text_size"
@@ -150,7 +150,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SAVE"
+                android:text="@string/button_text_save"
                 android:id="@+id/buttonSave"
                 android:padding="@dimen/border_padding_regular"
                 android:textSize="@dimen/button_small_text_size"

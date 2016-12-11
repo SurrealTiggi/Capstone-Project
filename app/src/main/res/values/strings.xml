@@ -32,4 +32,19 @@
     <string name="content_clear_button">Clear current chart</string>
     <string name="content_create_button">Create chart</string>
     <string name="content_random_button">Fetch random tasks</string>
+    <string name="placeholder_day">Mon</string>
+    <string name="placeholder_name">Al Pacino</string>
+    <string name="placeholder_name2">Donald</string>
+    <string name="new_chart_tasks">Tasks</string>
+    <string name="placeholder_example_task">1. Washed dishes</string>
+    <string name="placeholder_example_date">12-12-12</string>
+    <string name="chart_text_done">Done?</string>
+    <string name="placeholder_score">1/50</string>
+    <string name="button_text_save">SAVE</string>
+    <string name="chart_title_user">User</string>
+    <string name="button_text_compelte">COMPLETE</string>
+    <string name="button_text_history">HISTORY</string>
+    <string name="button_text_random">RANDOM</string>
+    <string name="button_text_create">CREATE</string>
+    <string name="button_text_clear">CLEAR</string>
 </resources>

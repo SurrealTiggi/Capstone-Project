@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Al Pacino"
+        android:text="@string/placeholder_name"
         android:id="@+id/nameArcTextView"
         android:padding="5dp"
         android:layout_centerVertical="true"
@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12-12-12"
+        android:text="@string/placeholder_example_date"
         android:id="@+id/dateArcTextView"
         android:padding="5dp"
         android:layout_alignTop="@+id/nameArcTextView"
@@ -32,7 +32,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1/50"
+        android:text="@string/placeholder_score"
         android:id="@+id/totalArcTextView"
         android:padding="5dp"
         android:layout_alignTop="@id/nameArcTextView"

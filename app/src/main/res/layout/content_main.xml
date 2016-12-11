@@ -73,7 +73,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HISTORY"
+            android:text="@string/button_text_history"
             android:id="@+id/archiveButton"
             android:padding="@dimen/border_padding_regular"
             android:textSize="@dimen/button_small_text_size"
