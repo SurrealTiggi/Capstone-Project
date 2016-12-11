@@ -1,11 +1,13 @@
 package adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +67,6 @@ public class EditTextAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        //Fill EditText with the value you have in data source
         holder.caption.setHint(((ListItem) myItems.get(position)).caption);
         holder.caption.setId(position);
         holder.caption.setContentDescription("Click to edit single task");
@@ -80,6 +81,7 @@ public class EditTextAdapter extends BaseAdapter {
                     if (mItems == null) {
                         mItems = new ArrayList<>();
                     } else {
+                        Log.d("EditTextAdapter", "Adding " + Caption.getText());
                         mItems.add(Caption.getText().toString());
                     }
                 }

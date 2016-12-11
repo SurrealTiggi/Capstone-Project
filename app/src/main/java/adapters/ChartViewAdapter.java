@@ -72,7 +72,6 @@ public class ChartViewAdapter extends RecyclerView.Adapter<ChartViewAdapter.Char
 
         public void bindReward(final Rewards reward) {
             currentReward = reward;
-            //TODO: EXTRA: Picasso to pull task images?
             mDayTextView.setText(CreateModel.convertDate(currentReward.getDay()));
             mDescriptionTextView.setText(currentReward.getTaskNumber() + ") " + currentReward.getTask());
             //mDoneCheckBox.setActivated(currentReward.isDone());

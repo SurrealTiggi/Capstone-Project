@@ -7,11 +7,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 /**
  * Created by Tiggi on 8/9/2016.
  */
 public class RewardsProvider extends ContentProvider {
+
+    private static final String TAG = RewardsProvider.class.getSimpleName();
 
     private RewardsDbHelper mDbHelper;
 
@@ -103,24 +106,57 @@ public class RewardsProvider extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+
         Cursor retCursor;
         int match = match_uri(uri);
+
+        //Log.d(TAG, "query(\n" + uri + "\n" + projection + "\n" + selection.toString() + "\n" + selectionArgs[0] + "\n" + sortOrder + "\n)");
+
         switch (match) {
-            case REWARDS_ALL: retCursor = mDbHelper.getReadableDatabase().query(
-                    RewardsContract.REWARDS_PATH,
-                    projection,null,null,null,null,sortOrder); break;
+            case REWARDS_ALL:
+                retCursor = mDbHelper.getReadableDatabase().query(
+                        RewardsContract.REWARDS_PATH,   // Table
+                        projection,                     // Table columns
+                        null,                           // WHERE clause
+                        null,                           // WHERE args
+                        null,                           // GROUP BY
+                        null,                           // HAVING
+                        sortOrder                       // ORDER BY
+                );
+                break;
             case REWARDS_ACTIVE:
                 retCursor = mDbHelper.getReadableDatabase().query(
                         RewardsContract.REWARDS_PATH,
-                        projection,mActiveRewards,selectionArgs,null,null,sortOrder); break;
+                        projection,
+                        mActiveRewards,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
             case REWARDS_ARCHIVED:
                 retCursor = mDbHelper.getReadableDatabase().query(
                         RewardsContract.REWARDS_PATH,
-                        projection,mArchivedRewards,selectionArgs,null,null,sortOrder); break;
+                        projection,
+                        mArchivedRewards,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
             case REWARDS_SINGLE_ARCHIVED:
                 retCursor = mDbHelper.getReadableDatabase().query(
                         RewardsContract.REWARDS_PATH,
-                        projection,mSingleArchivedRewards,selectionArgs,null,null,sortOrder); break;
+                        projection,
+                        mSingleArchivedRewards,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
             default: throw new UnsupportedOperationException("Unknown Uri... I guess..." + uri);
         }
         retCursor.setNotificationUri(getContext().getContentResolver(),uri);
@@ -147,33 +183,5 @@ public class RewardsProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         return 0;
-    }
-
-    //TODO: below might need to be adjusted for new insert and for updating when done editing charts
-    @Override
-    public int bulkInsert(Uri uri, ContentValues[] values) {
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-        switch (match_uri(uri)) {
-            case REWARDS_ALL:
-                db.beginTransaction();
-                int returnCount = 0;
-                try {
-                    for (ContentValues value : values) {
-                        long _id = db.insertWithOnConflict(RewardsContract.REWARDS_PATH, null, value,
-                                SQLiteDatabase.CONFLICT_REPLACE);
-                        if (_id != -1) {
-                            returnCount++;
-                        }
-                    }
-                    db.setTransactionSuccessful();
-                } finally {
-                    db.endTransaction();
-                }
-                getContext().getContentResolver().notifyChange(uri,null);
-                return returnCount;
-            default:
-                return super.bulkInsert(uri,values);
-        }
     }
 }

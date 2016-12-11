@@ -14,8 +14,6 @@ import java.io.IOException;
  */
 public class FetchTasks extends AsyncTask<String, Void, String> {
 
-    //TODO: Update to Intent Service (Check football scores)
-
     private final static String TAG = FetchTasks.class.getSimpleName();
     private static MyApi myApiService = null;
 

@@ -1,35 +1,38 @@
 package baptista.tiago.rewardbingo.ui;
 
-import android.content.ComponentName;
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
-
-import com.google.common.base.Predicate;
+import android.widget.Toast;
 
 import java.util.List;
 
 import adapters.ChartViewAdapter;
 import baptista.tiago.rewardbingo.R;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import data.RewardsContract;
 import data.RewardsDbHelper;
 import models.Rewards;
 import tasks.OnItemDone;
+import utils.CreateModel;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ChartViewActivityFragment extends Fragment implements OnItemDone {
+public class ChartViewActivityFragment extends Fragment implements OnItemDone, LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = ChartViewActivityFragment.class.getSimpleName();
     private static String CONTEXT_PARENT_FLAG = "PARENT";
@@ -42,8 +45,24 @@ public class ChartViewActivityFragment extends Fragment implements OnItemDone {
 
     private List<Rewards> mRewards;
     private AlphaAnimation buttonClick = new AlphaAnimation(1F, 0.8F);
+
+    /*
+    * Loader stuff
+    */
+    private static String[] REWARDS_PROJECTION = {
+            RewardsContract.RewardsTable.COL_ID,
+            RewardsContract.RewardsTable.COL_USER,
+            RewardsContract.RewardsTable.COL_DAY,
+            RewardsContract.RewardsTable.COL_TASK,
+            RewardsContract.RewardsTable.COL_TASK_NUMBER,
+            RewardsContract.RewardsTable.COL_DONE,
+            RewardsContract.RewardsTable.COL_ARCHIVED
+    };
+
+    private String[] mSelectionArgs;
+
+
     //TODO: UI: Coordinator Layout with action bar showing user name
-    //TODO: UI: Cater for rotation and call ContentProdider???
 
 
     public ChartViewActivityFragment() {
@@ -96,7 +115,6 @@ public class ChartViewActivityFragment extends Fragment implements OnItemDone {
             @Override
             public void onClick(View v) {
                 v.startAnimation(buttonClick);
-                // TODO: CONTENTPROVIDER: Save entire object to ContentProvider
                 saveToLocal();
             }
         });
@@ -111,14 +129,14 @@ public class ChartViewActivityFragment extends Fragment implements OnItemDone {
         });
 
         mRecyclerView = (RecyclerView) mView.findViewById(R.id.chartRecyclerView);
-        updateDisplay();
-
         return mView;
     }
 
     private void getRewards() {
-        //TODO: CONTENTPROVIDER: Get everything
-        mRewards = new RewardsDbHelper(mContext).getAllRewards();
+        //Bundle selection = new Bundle();
+        //selection.putString("selectionArg","all");
+
+        this.getActivity().getLoaderManager().initLoader(0,null,this);
     }
 
     private void updateDisplay() {
@@ -147,14 +165,48 @@ public class ChartViewActivityFragment extends Fragment implements OnItemDone {
 
     private void saveToLocal() {
         //TODO: CONTENTPROVIDER: Delete everything with given IDs and re-insert
-        //new RewardsDbHelper(mContext).updateRewards(mRewards);
     }
 
     private void archiveAndSave() {
         for (Rewards singleReward : mRewards) {
             singleReward.setArchive(true);
         }
-        //TODO: CONTENTPROVIDER: Delete everything with given IDs and re-insert
-        //new RewardsDbHelper(mContext).archiveRewards(mRewards);
+        //TODO: CONTENTPROVIDER: Delete everything with given IDs and re-insert with archive flag
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.d(TAG, "onCreateLoader()");
+        return new CursorLoader(
+                mContext,
+                RewardsContract.BASE_CONTENT_URI,
+                REWARDS_PROJECTION,
+                null,
+                null,
+                null
+        );
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Log.d(TAG, "onLoadFinished()");
+
+        if (data.getCount() > 0) {
+            mRewards = CreateModel.createRewardsFromCursor(data);
+            }
+
+        if (mRewards == null) {
+            Toast.makeText(mContext,"No data found to populate view",Toast.LENGTH_SHORT).show();
+            Intent setIntent = new Intent(mContext, MainActivity.class);
+            setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(setIntent);
+        } else {
+            updateDisplay();
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        Log.d(TAG, "onLoaderReset()");
     }
 }

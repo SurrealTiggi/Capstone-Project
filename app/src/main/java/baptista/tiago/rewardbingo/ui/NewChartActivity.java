@@ -150,7 +150,6 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
                     populateListView();
                     break;
                 case 1:
-                    Log.d(TAG, "Clearing...");
                     mUserEditText.setText("");
                     mRandomTasks = null;
                     if (mCreateButton.getVisibility() == View.INVISIBLE) {
@@ -159,7 +158,6 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
                     mListView.setAdapter(null);
                     break;
                 case 2:
-                    Log.d(TAG, "Fetching external data....");
                     toggleProgressBar();
                     if (mCreateButton.getVisibility() == View.VISIBLE) {
                         toggleCreateButton();
@@ -167,8 +165,8 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
                     new FetchTasks(this).execute("https://udacity-3-1252.appspot.com/_ah/api", mTasks);
                     break;
                 case 3:
-                    Log.d(TAG, "Saving and moving to view chart activity...");
                     if (mRandomTasks == null && mEditTextAdapter != null) {
+                        mEditTextAdapter.notifyDataSetChanged();
                         mItems = mEditTextAdapter.getItems();
                     }
                     startChartActivity();
@@ -239,7 +237,6 @@ public class NewChartActivity extends AppCompatActivity implements OnTasksComple
     private boolean checkForItems() {
         try {
             if (mItems != null) {
-                Log.d(TAG, "Size: " + mItems.size() + ", elements: " + mItems.get(0));
                 return true;
             } else {
                 return false;

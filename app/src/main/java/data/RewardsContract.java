@@ -1,10 +1,8 @@
 package data;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.text.method.PasswordTransformationMethod;
 
 /**
  * Created by Tiggi on 8/9/2016.

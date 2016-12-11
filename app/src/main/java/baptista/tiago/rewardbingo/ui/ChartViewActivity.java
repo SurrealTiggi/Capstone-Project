@@ -3,6 +3,7 @@ package baptista.tiago.rewardbingo.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,15 +21,22 @@ public class ChartViewActivity extends AppCompatActivity implements AppBarLayout
     private static String FRAGMENT_TAG = "CHART_VIEW_FRAGMENT";
     public static String mParent;
 
+    // AppBar Layout stuff
+    private Toolbar mToolbar;
+    private AppBarLayout mAppBarLayout;
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart_view);
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar_container);
+        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_bar);
 
         mParent = getIntent().getStringExtra(CONTEXT_PARENT_FLAG);
-        //TODO: UI: Implement fragment manager to cater for rotation
         Bundle bundle = new Bundle();
         bundle.putString(CONTEXT_PARENT_FLAG, mParent);
 
@@ -63,7 +71,7 @@ public class ChartViewActivity extends AppCompatActivity implements AppBarLayout
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Share!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });

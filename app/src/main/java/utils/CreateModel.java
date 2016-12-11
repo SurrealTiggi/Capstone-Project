@@ -1,13 +1,19 @@
 package utils;
 
+import android.database.Cursor;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
+import data.RewardsContract;
 import models.Rewards;
 
 /**
@@ -58,5 +64,24 @@ public class CreateModel {
         cal.set(year, month, day - 1);
         SimpleDateFormat sdf = new SimpleDateFormat("EEE");
         return String.valueOf(sdf.format(cal.getTime()));
+    }
+
+    public static List<Rewards> createRewardsFromCursor(Cursor cursor) {
+        List<Rewards> tasks = new ArrayList<Rewards>();
+
+        for (int i = 0; i < cursor.getCount(); i++) {
+            if (cursor.moveToNext()) {
+                Rewards currentReward = new Rewards();
+                currentReward.setId(cursor.getInt(cursor.getColumnIndexOrThrow(RewardsContract.RewardsTable.COL_ID)));
+                currentReward.setUser(cursor.getString(cursor.getColumnIndexOrThrow(RewardsContract.RewardsTable.COL_USER)));
+                currentReward.setArchive(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndexOrThrow(RewardsContract.RewardsTable.COL_ARCHIVED))));
+                currentReward.setDone(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndexOrThrow(RewardsContract.RewardsTable.COL_DONE))));
+                currentReward.setTask(cursor.getString(cursor.getColumnIndexOrThrow(RewardsContract.RewardsTable.COL_TASK)));
+                currentReward.setTaskNumber(cursor.getInt(cursor.getColumnIndexOrThrow(RewardsContract.RewardsTable.COL_TASK_NUMBER)));
+                currentReward.setDay(cursor.getString(cursor.getColumnIndexOrThrow(RewardsContract.RewardsTable.COL_DAY)));
+                tasks.add(currentReward);
+            }
+        }
+        return tasks;
     }
 }

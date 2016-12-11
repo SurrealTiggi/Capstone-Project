@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.google.android.gms.analytics.Tracker;
 import baptista.tiago.rewardbingo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+//import butterknife.BindView;
 import utils.MyAnalyticsApplication;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private static String CONTEXT_PARENT_FLAG = "PARENT";
     private Tracker mTracker;
     private String name = "Reward Bingo: Main Screen";
+    private CoordinatorLayout mCoordinatorLayout;
+
     @Bind(R.id.newChartTextView) Button mNewChart;
     @Bind(R.id.viewChartTextView) Button mViewChart;
     @Bind(R.id.archiveButton) Button mArchiveButton;
@@ -130,12 +134,6 @@ public class MainActivity extends AppCompatActivity {
             isAvailable = true;
         }
         return isAvailable;
-    }
-
-    private void popError() {
-        //AlertDialogFragment dialog = new AlertDialogFragment();
-        //dialog.show(getFragmentManager(), "error_dialog");
-        //Toast.makeText(this, getString(R.string.network_is_broken), Toast.LENGTH_SHORT).show();
     }
 
     private boolean existingChart() {
